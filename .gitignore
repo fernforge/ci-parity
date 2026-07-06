@@ -1,0 +1,4 @@
+node_modules/
+PROGRESS.md
+*.log
+.cb-claude.log

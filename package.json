@@ -1,0 +1,47 @@
+{
+  "name": "ci-parity",
+  "version": "0.1.0",
+  "description": "Statically predict the common 'passes locally, fails in CI' failures before you push: multi-source Node/tool version drift, lockfile staleness, env/secrets your workflow needs but your shell lacks, and OS-only shell steps.",
+  "bin": {
+    "ci-parity": "bin/cli.js"
+  },
+  "type": "commonjs",
+  "main": "src/index.js",
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node test/run.js"
+  },
+  "keywords": [
+    "ci",
+    "github-actions",
+    "pre-push",
+    "git-hook",
+    "nvmrc",
+    "node-version",
+    "lockfile",
+    "npm-ci",
+    "actionlint",
+    "devtools"
+  ],
+  "engines": {
+    "node": ">=16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fernforge/ci-parity.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fernforge/ci-parity/issues"
+  },
+  "homepage": "https://github.com/fernforge/ci-parity#readme",
+  "license": "MIT",
+  "author": "fernforge",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}
