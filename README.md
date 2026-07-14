@@ -51,6 +51,17 @@ npx ci-parity          # one-off, no install
 npm i -D ci-parity     # add to a project
 ```
 
+## GitHub Action
+
+Run the same check as a CI job — catches the same failures on a teammate's PR who skipped the hook:
+
+```yaml
+- uses: fernforge/ci-parity@v0.2.0
+  with:
+    path: .        # optional, default "."
+    strict: false  # optional, fail on warnings too
+```
+
 ## Pre-push hook
 
 With [simple-git-hooks](https://github.com/toplenboren/simple-git-hooks):

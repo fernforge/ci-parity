@@ -14,3 +14,10 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: node bin/cli.js .
+  action-self-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          path: .

@@ -1,0 +1,29 @@
+name: 'CI Parity Check'
+description: "Statically predict the common 'passes locally, fails in CI' failure classes: Node/tool version drift, lockfile staleness, missing env/secrets, OS-only shell steps."
+author: 'fernforge'
+branding:
+  icon: 'shield'
+  color: 'green'
+inputs:
+  path:
+    description: 'Path to the repo to analyze'
+    required: false
+    default: '.'
+  strict:
+    description: 'Exit non-zero on warnings too, not just errors'
+    required: false
+    default: 'false'
+  warn-only:
+    description: 'Never exit non-zero (report only)'
+    required: false
+    default: 'false'
+runs:
+  using: 'composite'
+  steps:
+    - name: Run ci-parity
+      shell: bash
+      run: |
+        args=("${{ inputs.path }}")
+        if [ "${{ inputs.strict }}" = "true" ]; then args+=("--strict"); fi
+        if [ "${{ inputs.warn-only }}" = "true" ]; then args+=("--warn-only"); fi
+        npx --yes ci-parity@latest "${args[@]}"
