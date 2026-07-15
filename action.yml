@@ -1,5 +1,5 @@
 name: 'CI Parity Check'
-description: "Statically predict the common 'passes locally, fails in CI' failure classes: Node/tool version drift, lockfile staleness, missing env/secrets, OS-only shell steps."
+description: 'Statically catch the failures that pass locally but fail in CI: version drift, stale lockfiles, missing env, OS-only steps.'
 author: 'fernforge'
 branding:
   icon: 'shield'

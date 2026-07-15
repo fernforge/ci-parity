@@ -1,6 +1,6 @@
 {
   "name": "ci-parity",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Statically predict the common 'passes locally, fails in CI' failures before you push: multi-source Node/tool version drift, lockfile staleness, env/secrets your workflow needs but your shell lacks, and OS-only shell steps.",
   "bin": {
     "ci-parity": "bin/cli.js"
