@@ -5,6 +5,7 @@ const { checkNodeDrift, checkPackageManagerDrift } = require('./checks/versions'
 const { checkLockfileStaleness } = require('./checks/lockfile');
 const { checkMissingEnv } = require('./checks/env');
 const { checkShellPortability } = require('./checks/shell');
+const { checkNpm12DefaultBlock } = require('./checks/npm12');
 
 // Run every static check against a repo root. Returns { findings, workflowCount, parseErrors }.
 function analyze(root) {
@@ -31,6 +32,7 @@ function analyze(root) {
   checkLockfileStaleness(root, workflows, findings);
   checkMissingEnv(root, workflows, findings);
   checkShellPortability(root, workflows, findings);
+  checkNpm12DefaultBlock(root, workflows, findings);
 
   return { findings, workflowCount: workflows.length, parseErrors };
 }

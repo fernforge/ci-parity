@@ -43,6 +43,7 @@ All static. No network, no Docker, no running your build.
 - **Lockfile staleness.** Dependencies in `package.json` that aren't in `package-lock.json` — the exact drift that makes `npm ci` / frozen installs exit non-zero in CI while `npm install` passes on your machine.
 - **Env/secrets missing locally.** Names a workflow injects from `secrets.*` / `vars.*` that aren't in your shell or a local `.env`. When a test reads one, local and CI can take different code paths.
 - **OS-only shell steps.** `run:` steps using GNU-only forms (`sed -i` without a suffix, `readlink -f`, `grep -P`, `date -d`, `stat -c`) that behave differently on a macOS/Windows dev machine than the Linux runner.
+- **npm 12 default-block risk.** npm 12 (shipped 2026-07-08) defaults `allow-scripts`, `allow-git`, and `allow-remote` to deny. It flags dependencies with lifecycle install scripts (read straight from `package-lock.json`'s `hasInstallScript` field, no install needed), git-protocol deps, and remote tarball-URL deps that will silently stop working the moment CI upgrades npm — unless you've already opted in via `.npmrc`.
 
 ## Install
 

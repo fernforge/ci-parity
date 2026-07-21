@@ -1,7 +1,7 @@
 {
   "name": "ci-parity",
-  "version": "0.2.1",
-  "description": "Statically predict the common 'passes locally, fails in CI' failures before you push: multi-source Node/tool version drift, lockfile staleness, env/secrets your workflow needs but your shell lacks, and OS-only shell steps.",
+  "version": "0.3.0",
+  "description": "Statically predict the common 'passes locally, fails in CI' failures before you push: version drift, stale lockfiles, missing env, OS-only shell steps, and npm 12's default-blocked install scripts/git deps/remote deps.",
   "bin": {
     "ci-parity": "bin/cli.js"
   },
@@ -26,7 +26,10 @@
     "lockfile",
     "npm-ci",
     "actionlint",
-    "devtools"
+    "devtools",
+    "npm12",
+    "install-scripts",
+    "supply-chain"
   ],
   "engines": {
     "node": ">=16"

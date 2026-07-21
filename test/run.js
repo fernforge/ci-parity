@@ -173,5 +173,80 @@ jobs:
   assert.ok(!found.includes('lockfile-missing') && !found.includes('workflow-parse-error'));
 });
 
+test('npm 12 flags a dependency with an unapproved install script', () => {
+  const repo = mkRepo({
+    'package.json': JSON.stringify({ name: 'x', version: '1.0.0', dependencies: { sharp: '^0.33.0' } }),
+    'package-lock.json': JSON.stringify({
+      lockfileVersion: 3,
+      packages: {
+        '': { name: 'x', version: '1.0.0' },
+        'node_modules/sharp': {
+          version: '0.33.0',
+          resolved: 'https://registry.npmjs.org/sharp/-/sharp-0.33.0.tgz',
+          hasInstallScript: true,
+        },
+      },
+    }),
+  });
+  assert.ok(classes(repo).includes('npm12-blocked-install-scripts'));
+});
+
+test('npm 12 install-script finding is suppressed when allow-scripts is configured', () => {
+  const repo = mkRepo({
+    '.npmrc': 'allow-scripts=sharp:true\n',
+    'package.json': JSON.stringify({ name: 'x', version: '1.0.0', dependencies: { sharp: '^0.33.0' } }),
+    'package-lock.json': JSON.stringify({
+      lockfileVersion: 3,
+      packages: {
+        '': { name: 'x', version: '1.0.0' },
+        'node_modules/sharp': {
+          version: '0.33.0',
+          resolved: 'https://registry.npmjs.org/sharp/-/sharp-0.33.0.tgz',
+          hasInstallScript: true,
+        },
+      },
+    }),
+  });
+  assert.ok(!classes(repo).includes('npm12-blocked-install-scripts'));
+});
+
+test('npm 12 flags a git-protocol dependency', () => {
+  const repo = mkRepo({
+    'package.json': JSON.stringify({
+      name: 'x',
+      version: '1.0.0',
+      dependencies: { 'my-fork': 'git+https://github.com/someone/my-fork.git' },
+    }),
+  });
+  assert.ok(classes(repo).includes('npm12-blocked-git-dep'));
+});
+
+test('npm 12 flags a remote tarball URL dependency', () => {
+  const repo = mkRepo({
+    'package.json': JSON.stringify({
+      name: 'x',
+      version: '1.0.0',
+      dependencies: { thing: 'https://example.com/thing-1.0.0.tgz' },
+    }),
+  });
+  assert.ok(classes(repo).includes('npm12-blocked-remote-dep'));
+});
+
+test('npm 12 git/remote findings suppressed when allow-git/allow-remote configured', () => {
+  const repo = mkRepo({
+    '.npmrc': 'allow-git=all\nallow-remote=all\n',
+    'package.json': JSON.stringify({
+      name: 'x',
+      version: '1.0.0',
+      dependencies: {
+        'my-fork': 'git+https://github.com/someone/my-fork.git',
+        thing: 'https://example.com/thing-1.0.0.tgz',
+      },
+    }),
+  });
+  const found = classes(repo);
+  assert.ok(!found.includes('npm12-blocked-git-dep') && !found.includes('npm12-blocked-remote-dep'));
+});
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail === 0 ? 0 : 1);
